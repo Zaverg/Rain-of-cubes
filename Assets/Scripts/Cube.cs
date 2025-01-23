@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private float _time;
-    private WaitForSeconds _wait;
     private PoolCubs _poolCubs;
 
     public MeshRenderer MeshRenderer;
@@ -16,7 +14,6 @@ public class Cube : MonoBehaviour
 
     private void Awake()
     {
-        _wait = new WaitForSeconds(_time);
         _poolCubs = FindFirstObjectByType<PoolCubs>();
         MeshRenderer = GetComponent<MeshRenderer>();
         Rigidbody = GetComponent<Rigidbody>();
@@ -27,15 +24,15 @@ public class Cube : MonoBehaviour
         IsStart = false;
     }
 
-    public void StartTimer()
+    public void StartTimer(float time)
     {
         IsStart = true;
-        StartCoroutine(nameof(Timer));
+        StartCoroutine(nameof(Timer), time);
     }
 
-    private IEnumerator Timer()
+    private IEnumerator Timer(float time)
     {
-        yield return _wait;
+        yield return new WaitForSeconds(time); ;
         _poolCubs.OnRelease(this);
     }
 }

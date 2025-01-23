@@ -16,15 +16,15 @@ public class GameHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(nameof(GameWork));
+        StartCoroutine(nameof(Working));
     }
 
     private void OnDisable()
     {
-        StopCoroutine(nameof(GameWork));
+        StopCoroutine(nameof(Working));
     }
 
-    private IEnumerator GameWork()
+    private IEnumerator Working()
     {
         while (true)
         {
