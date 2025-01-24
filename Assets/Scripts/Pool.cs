@@ -2,41 +2,41 @@ using System;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Pool<T> : MonoBehaviour where T : MonoBehaviour
+public class Pool : MonoBehaviour
 {
-    private ObjectPool<T> _pool;
+    private ObjectPool<Cube> _pool;
 
-    public event Func<T> Spawned;
-
+    public event Func<Cube> Spawned;
+    
     [field: SerializeField] public int Size { get; private set; }
 
     private void Awake()
     {
-        _pool = new ObjectPool<T>(Create, OnGetObject, OnReleaseObject, defaultCapacity: 10, maxSize: Size);
+        _pool = new ObjectPool<Cube>(Create, OnGetObject, OnReleaseObject, defaultCapacity: 10, maxSize: Size);
     }
 
-    private T Create()
+    private Cube Create()
     {
         return Spawned?.Invoke() ?? null;
     }
 
-    private void OnGetObject(T obj)
+    private void OnGetObject(Cube obj)
     {
         obj.transform.gameObject.SetActive(true);
     }
 
-    private void OnReleaseObject(T obj)
+    private void OnReleaseObject(Cube obj)
     {
         obj.transform.position = transform.position;
         obj.transform.gameObject.SetActive(false);
     }
 
-    public virtual T GetObject()
+    public Cube GetObject()
     {
         return _pool.Get();
     }
 
-    public virtual void OnRelease(T obj)
+    public void OnRelease(Cube obj)
     {
         _pool.Release(obj);
     }
