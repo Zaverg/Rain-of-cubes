@@ -1,46 +1,53 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshRenderer), typeof(Rigidbody))]
+[RequireComponent(typeof(MeshRenderer), typeof(Rigidbody), typeof(ColorChanger))]
+[RequireComponent(typeof(Timer))]
 public class Cube : MonoBehaviour
 {
-    public MeshRenderer MeshRenderer;
-    public Rigidbody Rigidbody;
+    private Rigidbody _rigidbody;
+    private Timer _timer;
+    private ColorChanger _colorChanging;
 
-    public bool IsStart { get; private set; }
+    private bool IsCollision;
 
     public event Action<Cube> Released;
 
     private void Awake()
     {
-        MeshRenderer = GetComponent<MeshRenderer>();
-        Rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _timer = GetComponent<Timer>();
+        _colorChanging = GetComponent<ColorChanger>();
+    }
+
+    private void OnEnable()
+    {
+        _timer.TimerEnded += Reset;
     }
 
     private void OnDisable()
     {
-        IsStart = false;
+        _timer.TimerEnded -= Reset;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.TryGetComponent<Platform>(out Platform platform))
         {
-            if (IsStart == false)
+            if (IsCollision == false)
             {
-                MeshRenderer.material.color = UnityEngine.Random.ColorHSV();
-                float time = platform.GetLiveTime();
+                IsCollision = true;
 
-                StartCoroutine(StartTimer(time));
+                _colorChanging.Change();
+                _timer.StartTimer();
             }
         }
     }
 
-    private IEnumerator StartTimer(float time)
+    private void Reset()
     {
-        IsStart = true;
-        yield return new WaitForSeconds(time);
-        Released?.Invoke(this);  
+        transform.rotation = Quaternion.EulerRotation(Vector3.zero);
+        IsCollision = false;
+        Released?.Invoke(this);
     }
 }

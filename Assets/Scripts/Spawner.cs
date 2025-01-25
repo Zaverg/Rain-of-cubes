@@ -31,24 +31,13 @@ public class Spawner : MonoBehaviour
         StopCoroutine(_coroutine);
     }
 
-    private void SetPosition(Cube cube)
-    {
-        int positionX = UnityEngine.Random.Range(_minPositionX, _maxPositionX);
-        cube.transform.position = new Vector3(positionX, transform.position.y, transform.position.z);
-    }
-
     private Cube Spawn()
     {
-        Cube obj = Instantiate(_prefab, transform.position, Quaternion.identity);
-
-        return obj;
+        return Instantiate(_prefab, transform.position, Quaternion.identity);
     }
 
     private void OnRelease(Cube cube)
     {
-        cube.MeshRenderer.material.color = _prefab.MeshRenderer.sharedMaterial.color;
-        cube.transform.rotation = _prefab.transform.rotation;
-        cube.Rigidbody.isKinematic = true;
         _pool.OnRelease(cube);
         cube.Released -= OnRelease;
     }
@@ -60,9 +49,10 @@ public class Spawner : MonoBehaviour
             yield return _wait;
 
             Cube cube = _pool.GetObject();
-            cube.Rigidbody.isKinematic = false;
             cube.Released += OnRelease;
-            SetPosition(cube);
+
+            int positionX = UnityEngine.Random.Range(_minPositionX, _maxPositionX);
+            cube.transform.position = new Vector3(positionX, transform.position.y, transform.position.z); 
         }
     }
 }
