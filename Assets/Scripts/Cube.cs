@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(MeshRenderer), typeof(Rigidbody), typeof(ColorChanger))]
 [RequireComponent(typeof(Timer))]
-public class Cube : MonoBehaviour
+public class Cube : MonoBehaviour, IReleased<Cube>
 {
     private Rigidbody _rigidbody;
     private Timer _timer;
@@ -12,6 +13,9 @@ public class Cube : MonoBehaviour
     private bool IsCollision;
 
     public event Action<Cube> Released;
+
+    private Vector3 _lastPosition;
+    public Vector3 LastPosition => _lastPosition;
 
     private void Awake()
     {
@@ -46,8 +50,10 @@ public class Cube : MonoBehaviour
 
     private void Reset()
     {
-        transform.rotation = Quaternion.EulerRotation(Vector3.zero);
+        transform.rotation = Quaternion.Euler(Vector3.zero);
         IsCollision = false;
+
+        _lastPosition = transform.position;
         Released?.Invoke(this);
     }
 }

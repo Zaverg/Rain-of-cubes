@@ -1,58 +1,63 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class Spawner : MonoBehaviour
+public abstract class Spawner<T> : MonoBehaviour where T : Component
 {
-    [SerializeField] private int _maxPositionX;
-    [SerializeField] private int _minPositionX;
+    [SerializeField] private T _prefab;
+    private ObjectPool<T> _pool;
+    private HashSet<T> _objects;
 
-    [SerializeField] private Cube _prefab;
-    [SerializeField] private Pool _pool;
-
-    [SerializeField] private int _time = 0;
-
-    private WaitForSeconds _wait;
-    private Coroutine _coroutine;
-
-    private void Awake()
+    protected virtual void Awake()
     {
-        _wait = new WaitForSeconds(_time);
-    }
+        if (_prefab == null)
+        {
+            Debug.LogError($"Prefab for {typeof(T).Name} is not assigned!", this);
+            enabled = false;
+            return;
+        }
 
-    private void OnEnable()
-    {
-        _pool.Spawned += Spawn;
-        _coroutine = StartCoroutine(Working());
+        _pool = new ObjectPool<T>(Create, OnGetObject, OnReleaseObject);
+        _objects = new HashSet<T>();
     }
 
     private void OnDisable()
     {
-        _pool.Spawned -= Spawn;
-        StopCoroutine(_coroutine);
-    }
-
-    private Cube Spawn()
-    {
-        return Instantiate(_prefab, transform.position, Quaternion.identity);
-    }
-
-    private void OnRelease(Cube cube)
-    {
-        _pool.OnRelease(cube);
-        cube.Released -= OnRelease;
-    }
-
-    private IEnumerator Working()
-    {
-        while (enabled)
+        foreach (T obj in _objects)
         {
-            yield return _wait;
-
-            Cube cube = _pool.GetObject();
-            cube.Released += OnRelease;
-
-            int positionX = UnityEngine.Random.Range(_minPositionX, _maxPositionX);
-            cube.transform.position = new Vector3(positionX, transform.position.y, transform.position.z); 
+            IReleased<T> released = obj as IReleased<T>;
+            released.Released -= _pool.Release;
         }
+    }
+
+    protected T GetObject()
+    {
+        return _pool.Get();
+    }
+
+    private T Create()
+    {
+        T obj = Instantiate(_prefab, transform.position, Quaternion.identity);
+
+        if (obj is IReleased<T>)
+        {
+            IReleased<T> released = obj as IReleased<T>;
+            released.Released += _pool.Release;
+        }
+      
+        _objects.Add(obj);
+        
+        return obj;
+    }
+
+    private void OnGetObject(T obj)
+    {
+        obj.gameObject.SetActive(true);
+    }
+
+    private void OnReleaseObject(T obj)
+    {
+        obj.transform.position = transform.position;
+        obj.gameObject.SetActive(false);
     }
 }
