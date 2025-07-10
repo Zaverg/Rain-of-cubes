@@ -27,7 +27,7 @@ public class CubeSpawner : Spawner<Cube>
             yield return _wait;
 
             Cube cube = GetObject();
-            cube.Released += _bombSpawner.Spawn<Cube>;
+            cube.Released += _bombSpawner.Spawn;
 
             int positionX = Random.Range(_minPositionX, _maxPositionX);
             cube.transform.position = new Vector3(positionX, transform.position.y, transform.position.z);

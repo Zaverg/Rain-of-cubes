@@ -24,7 +24,7 @@ public class Bomb : MonoBehaviour, IReleasable<Bomb>
     private void OnEnable()
     {
         _disappearance.Reset();
-        _second = UnityEngine.Random.Range(_maxSecond, _minSecond);
+        _second = UnityEngine.Random.Range(_minSecond, _maxSecond);
         _currentSecond = _second;
     }
 
