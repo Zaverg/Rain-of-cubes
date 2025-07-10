@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-[RequireComponent(typeof(MeshRenderer), typeof(Rigidbody), typeof(ColorChanger))]
-[RequireComponent(typeof(Timer))]
-public class Cube : MonoBehaviour, IReleased<Cube>
+[RequireComponent(typeof(Rigidbody), typeof(ColorChanger), (typeof(Timer)))]
+public class Cube : MonoBehaviour, IReleasable<Cube>, IPositionProvider
 {
     private Rigidbody _rigidbody;
     private Timer _timer;
@@ -15,6 +13,7 @@ public class Cube : MonoBehaviour, IReleased<Cube>
     public event Action<Cube> Released;
 
     private Vector3 _lastPosition;
+
     public Vector3 LastPosition => _lastPosition;
 
     private void Awake()
@@ -36,7 +35,7 @@ public class Cube : MonoBehaviour, IReleased<Cube>
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.TryGetComponent<Platform>(out Platform platform))
+        if (collision.transform.TryGetComponent(out Platform platform))
         {
             if (IsCollision == false)
             {

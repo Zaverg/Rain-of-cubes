@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 503216502532338766}
   - component: {fileID: 2165241545079766510}
   - component: {fileID: 4864776022331857854}
-  - component: {fileID: 9205799224501721413}
-  - component: {fileID: 4369498101353001445}
+  - component: {fileID: -7477554362430566298}
+  - component: {fileID: 7381338702056061236}
+  - component: {fileID: 377659925311155240}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -107,7 +108,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9205799224501721413
+--- !u!114 &-7477554362430566298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,38 +120,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847f62948072f5b4982dcc849c9caf19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _second: 0
-  _currentSecond: 0
   _minSecond: 2
-  _maxSecond: 3
-  _radius: 20
-  _forceExplosion: 400
-  _color: {r: 0, g: 0, b: 0, a: 0}
-  _alpha: 1
---- !u!54 &4369498101353001445
-Rigidbody:
+  _maxSecond: 5
+  _exploder: {fileID: 7381338702056061236}
+  _disappearance: {fileID: 377659925311155240}
+  _currentSecond: 0
+--- !u!114 &7381338702056061236
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977147698551462621}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13be1c31039ab8e4f8916fd143226be1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radius: 10
+  _forceExplosion: 500
+--- !u!114 &377659925311155240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2977147698551462621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdfc82555905ba42851e5c7ace34482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 0, g: 0, b: 0, a: 0}
+  _alpha: 0

@@ -1,19 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BombSpawner : Spawner<Bomb>
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
-    public void Spawn(Cube cube)
+    public void Spawn<T>(T obj) where T : Component, IPositionProvider, IReleasable<T>
     {
         Bomb bomb = GetObject();
-        bomb.transform.position = cube.LastPosition;
+        bomb.transform.position = obj.LastPosition;
 
-        cube.Released -= Spawn;
+        obj.Released -= Spawn;
     }
 }
