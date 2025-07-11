@@ -1,45 +1,51 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Exploder), typeof(Disappearance))]
+[RequireComponent(typeof(Exploder), typeof(Disappearance), typeof(Timer))]
 public class Bomb : MonoBehaviour, IReleasable<Bomb>
 {
+    private Exploder _exploder;
+    private Disappearance _disappearance;
+    private Timer _timer;
+
     public event Action<Bomb> Released;
-
-    [SerializeField] private float _minSecond;
-    [SerializeField] private float _maxSecond;
-
-    [SerializeField] private Exploder _exploder;
-    [SerializeField] private Disappearance _disappearance;
-
-    private float _second;
-    [SerializeField] private float _currentSecond;
 
     private void Awake()
     {
         _exploder = GetComponent<Exploder>();
         _disappearance = GetComponent<Disappearance>();
+        _timer = GetComponent<Timer>();
     }
 
     private void OnEnable()
     {
         _disappearance.Reset();
-        _second = UnityEngine.Random.Range(_minSecond, _maxSecond);
-        _currentSecond = _second;
+        _timer.Ended += Reset;
+
+        StartCoroutine(Run());
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        if (_currentSecond > 0)
+        _timer.Ended -= Reset;
+    }
+
+    private IEnumerator Run()
+    {
+        _timer.StartRun();
+
+        while (enabled)
         {
-            float normalizedTime = Mathf.Clamp01(_currentSecond / _second);
-            _disappearance.Disappear(normalizedTime);
-            _currentSecond -= Time.deltaTime;
+            _disappearance.Disappear(Mathf.Clamp01(_timer.CurrentSecond / _timer.Seconds));
+
+            yield return null;
         }
-        else
-        {
-            _exploder.Explode();
-            Released?.Invoke(this);
-        }
+    }
+
+    private void Reset()
+    {
+        _exploder.Explode();
+        Released?.Invoke(this);
     }
 }

@@ -63,11 +63,12 @@
     <Compile Include="Assets\Scripts\Bomb.cs" />
     <Compile Include="Assets\Scripts\Disappearance.cs" />
     <Compile Include="Assets\Scripts\IReleasable.cs" />
-    <Compile Include="Assets\Scripts\SpawnerInfo.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
     <Compile Include="Assets\Scripts\BombSpawner.cs" />
+    <Compile Include="Assets\Scripts\SpawnerViewBomb.cs" />
     <Compile Include="Assets\Scripts\IPositionProvider.cs" />
     <Compile Include="Assets\Scripts\ColorChanger.cs" />
+    <Compile Include="Assets\Scripts\SpawnerViewCube.cs" />
     <Compile Include="Assets\Scripts\Platform.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\SpawnerView.cs" />

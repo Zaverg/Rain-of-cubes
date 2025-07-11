@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -7477554362430566298}
   - component: {fileID: 7381338702056061236}
   - component: {fileID: 377659925311155240}
+  - component: {fileID: 4574211157654723113}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -120,11 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 847f62948072f5b4982dcc849c9caf19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minSecond: 2
-  _maxSecond: 5
   _exploder: {fileID: 7381338702056061236}
   _disappearance: {fileID: 377659925311155240}
-  _currentSecond: 0
+  _timer: {fileID: 4574211157654723113}
 --- !u!114 &7381338702056061236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,3 +152,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _color: {r: 0, g: 0, b: 0, a: 0}
   _alpha: 0
+--- !u!114 &4574211157654723113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2977147698551462621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1095878e240c5d9438a7b031b29615a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeMin: 2
+  _timeMax: 5

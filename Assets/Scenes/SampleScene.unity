@@ -250,18 +250,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 194136773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9152ba9baf6a2c4e82bf58b35d1159c, type: 3}
+  m_Script: {fileID: 11500000, guid: bca369f46ca95ff42b85506022be51b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _info: {fileID: 1172451239}
+  _spawner: {fileID: 1172451238}
   textMeshProUGUIs:
   - {fileID: 1714745259}
   - {fileID: 918379637}
   - {fileID: 1265357380}
-  _startStrings:
-  - 'Spawned: '
-  - 'Created: '
-  - 'Active: '
 --- !u!1 &218711347
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,7 +371,6 @@ GameObject:
   m_Component:
   - component: {fileID: 340744272}
   - component: {fileID: 340744273}
-  - component: {fileID: 340744274}
   m_Layer: 0
   m_Name: CubeSpawner
   m_TagString: Untagged
@@ -410,24 +405,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87cf388e51f1e2943b1b6c735fe3660e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _info: {fileID: 340744274}
   _prefab: {fileID: 1387156921125193901, guid: cc7bab50bb26be243b9ba6e878a2fe8d, type: 3}
   _maxPositionX: 5
   _minPositionX: -5
-  _time: 1
+  _time: 2
   _bombSpawner: {fileID: 1172451238}
---- !u!114 &340744274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340744270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26328e25276597e4ea02e5a9b6c07c0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &519987866
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,18 +969,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 960626170}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9152ba9baf6a2c4e82bf58b35d1159c, type: 3}
+  m_Script: {fileID: 11500000, guid: e99b87d526bf0fd43a189d4c3d3f6b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _info: {fileID: 340744274}
+  _spawner: {fileID: 340744273}
   textMeshProUGUIs:
   - {fileID: 1648211537}
   - {fileID: 1667240405}
   - {fileID: 1124204495}
-  _startStrings:
-  - 'Spawbed: '
-  - 'Created: '
-  - 'Active: '
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1367,7 +1345,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1172451237}
   - component: {fileID: 1172451238}
-  - component: {fileID: 1172451239}
   m_Layer: 0
   m_Name: BombSpawner
   m_TagString: Untagged
@@ -1402,20 +1379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cc8008d6d23a74bb82ea6ce3050678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _info: {fileID: 1172451239}
   _prefab: {fileID: -7477554362430566298, guid: f54d06717841db543adc61888346b27f, type: 3}
---- !u!114 &1172451239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172451236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26328e25276597e4ea02e5a9b6c07c0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1181493864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,7 +2468,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067951046}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

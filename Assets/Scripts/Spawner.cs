@@ -1,14 +1,20 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T : Component
 {
-    [SerializeField] private SpawnerInfo _info;
     [SerializeField] private T _prefab;
 
     private ObjectPool<T> _pool;
     private HashSet<T> _objects;
+
+    private int _count;
+
+    public event Action<int> Spawned;
+    public event Action<int> Created;
+    public event Action<int> Activated;
 
     protected virtual void Awake()
     {
@@ -34,9 +40,13 @@ public abstract class Spawner<T> : MonoBehaviour where T : Component
 
     protected T GetObject()
     {
-        _info.AddSpawned();
+        T obj = _pool.Get();
 
-        return _pool.Get();
+        _count++;
+        Spawned?.Invoke(_count);
+        Activated?.Invoke(_pool.CountActive);
+
+        return obj;
     }
      
     private T Create()
@@ -48,23 +58,24 @@ public abstract class Spawner<T> : MonoBehaviour where T : Component
             IReleasable<T> released = obj as IReleasable<T>;
             released.Released += _pool.Release;
         }
-      
+
         _objects.Add(obj);
-        _info.AddCreated();
-        
+
+        Created?.Invoke(_objects.Count);
+
         return obj;
     }
 
     private void OnGetObject(T obj)
     {
         obj.gameObject.SetActive(true);
-        _info.ChangeActive(_pool.CountActive);
     }
 
     private void OnReleaseObject(T obj)
     {
         obj.transform.position = transform.position;
         obj.gameObject.SetActive(false);
-        _info.ChangeActive(_pool.CountActive);
+
+        Activated?.Invoke(_pool.CountActive - 1);
     }
 }

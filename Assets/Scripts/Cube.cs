@@ -9,10 +9,9 @@ public class Cube : MonoBehaviour, IReleasable<Cube>, IPositionProvider
     private ColorChanger _colorChanging;
 
     private bool IsCollision;
+    private Vector3 _lastPosition;
 
     public event Action<Cube> Released;
-
-    private Vector3 _lastPosition;
 
     public Vector3 LastPosition => _lastPosition;
 
@@ -25,12 +24,13 @@ public class Cube : MonoBehaviour, IReleasable<Cube>, IPositionProvider
 
     private void OnEnable()
     {
-        _timer.TimerEnded += Reset;
+        _rigidbody.freezeRotation = false;
+        _timer.Ended += Reset;
     }
 
     private void OnDisable()
     {
-        _timer.TimerEnded -= Reset;
+        _timer.Ended -= Reset;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,14 +42,17 @@ public class Cube : MonoBehaviour, IReleasable<Cube>, IPositionProvider
                 IsCollision = true;
 
                 _colorChanging.Change();
-                _timer.StartTimer();
+                _timer.StartRun();
             }
         }
     }
 
     private void Reset()
     {
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.freezeRotation = true;
         transform.rotation = Quaternion.Euler(Vector3.zero);
+
         IsCollision = false;
 
         _lastPosition = transform.position;

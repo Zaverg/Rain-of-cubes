@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CubeSpawner : Spawner<Cube> 
+public class CubeSpawner : Spawner<Cube>
 {
     [SerializeField] private int _maxPositionX;
     [SerializeField] private int _minPositionX;

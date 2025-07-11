@@ -172,5 +172,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1095878e240c5d9438a7b031b29615a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeLivesOfCubeMin: 2
-  _timeLivesOfCubeMax: 5
+  _timeMin: 2
+  _timeMax: 4

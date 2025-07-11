@@ -2,25 +2,43 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SpawnerView : MonoBehaviour
-{
-    [SerializeField] private SpawnerInfo _info;
+public class SpawnerView<T> : MonoBehaviour where T : Component, IReleasable<T>
+{   
+    [SerializeField] private Spawner<T> _spawner;
     [SerializeField] private List<TextMeshProUGUI> textMeshProUGUIs = new List<TextMeshProUGUI>();
 
-    [SerializeField] private List<string> _startStrings = new List<string>();
+    private List<string> _startStrs = new List<string>();
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        _info.Spawned += UpdateView;
-        _info.Created += UpdateView;
-        _info.Activated += UpdateView;
+        foreach (TextMeshProUGUI str in textMeshProUGUIs)
+        {
+            _startStrs.Add(str.text);
+        }
+
+        _spawner.Spawned += UpdateViewSpawned;
+        _spawner.Created += UpdateViewCreated;
+        _spawner.Activated += UpdateViewActivated;
     }
 
-    private void UpdateView(int index, int info)
+    private void UpdateViewSpawned(int count)
     {
-        TextMeshProUGUI textMeshProUGUI = textMeshProUGUIs[index];
+        int index = 0;
 
-        if (textMeshProUGUI != null)
-            textMeshProUGUI.text = _startStrings[index] + info;
+        textMeshProUGUIs[index].text = _startStrs[index] + count;
+    }
+
+    private void UpdateViewCreated(int count)
+    {
+        int index = 1;
+
+        textMeshProUGUIs[index].text = _startStrs[index] + count;
+    }
+
+    private void UpdateViewActivated(int count)
+    {
+        int index = 2;
+
+        textMeshProUGUIs[index].text = _startStrs[index] + count;
     }
 }
